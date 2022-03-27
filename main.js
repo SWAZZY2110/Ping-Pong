@@ -1,5 +1,13 @@
 
 /*created by prashant shukla */
+leftWristY = 0;
+rightWristY = 0;
+leftWristX = 0;
+rightWristX = 0;
+lefConf = 0;
+rigConf = 0;
+
+
 
 var paddle2 =10,paddle1=10;
 
@@ -34,12 +42,26 @@ function modelLoaded(){
 function gotResult(result){
   if(result.length > 0){
     console.log(result);
+
+    lefConf = result[0].pose.leftWrist.confidence;
+    rigConf = result[0].pose.rightWrist.confidence;
+    if (rigConf > 0.1) {
+      rightWristY = result[0].pose.rightWrist.y;
+      rightWristX = result[0].pose.rightWrist.x;
+    }
+    if (lefConf > 0.1) {
+      leftWristX = result[0].pose.leftWrist.x;
+      leftWristY = result[0].pose.leftWrist.y;
+      
+    }
   }
 }
 
 function draw(){
 
  background(0); 
+ 
+ image(video, 0, 0, 700, 600)
 
  fill("black");
  stroke("black");
@@ -48,6 +70,12 @@ function draw(){
  fill("black");
  stroke("black");
  rect(0,0,20,700);
+
+
+ circle(leftWristX, leftWristY, 50);
+
+ circle(rightWristX, rightWristY, 50);
+
  
    //funtion paddleInCanvas call 
    paddleInCanvas();
